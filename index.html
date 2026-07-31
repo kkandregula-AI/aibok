@@ -1243,6 +1243,11 @@ function showChapter(i){
 
 /* ---- Jump from a key term into the Lexicon ---- */
 function gotoTerm(name){
+  if($("#bookView").classList.contains('active')){
+    returnCtx={chapter:curChap, scrollY:window.scrollY};
+    backPill.innerHTML='\u2190 Back to '+CHAPTERS[curChap].jlabel;
+    showBackPill(true);
+  }
   switchView('lex');
   state.q=''; state.cat='all'; state.letter=null; state.fav=false;
   $("#search").value=''; $("#clearBtn").classList.remove('show');
@@ -1266,8 +1271,25 @@ function switchView(which){
     : `${TERMS.length} terms \u00b7 ${Object.keys(CATS).length} domains \u00b7 offline`;
   if(book){ showChapter(curChap); } else { clearPosters(); }
 }
-$("#tabBook").onclick=()=>switchView('book');
-$("#tabLex").onclick=()=>switchView('lex');
+/* return-to-chapter affordance: remember where a key-term tap came from */
+let returnCtx=null;
+const backPill=document.createElement('button');
+backPill.id='backPill'; backPill.className='back-pill'; backPill.onclick=returnToBook;
+document.body.appendChild(backPill);
+(function(){ const s=document.createElement('style'); s.textContent=
+  '.back-pill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(22px);z-index:120;opacity:0;pointer-events:none;transition:.22s;background:var(--ink);color:var(--paper);border:none;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 26px rgba(0,0,0,.28);cursor:pointer;display:flex;align-items:center;gap:8px}'+
+  '.back-pill.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}'+
+  '.back-pill:active{filter:brightness(1.12)}';
+  document.head.appendChild(s); })();
+function showBackPill(on){ backPill.classList.toggle('show',on); }
+function returnToBook(){
+  const ctx=returnCtx; returnCtx=null; showBackPill(false);
+  if(ctx) curChap=ctx.chapter;
+  switchView('book');
+  if(ctx) requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,ctx.scrollY)));
+}
+$("#tabBook").onclick=()=>{ returnCtx=null; showBackPill(false); switchView('book'); };
+$("#tabLex").onclick=()=>{ returnCtx=null; showBackPill(false); switchView('lex'); };
 
 /* ============================ PDF / PRINT EXPORT ============================ */
 function el(tag,cls,html){ const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
