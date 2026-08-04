@@ -1175,8 +1175,49 @@ const CHAPTERS=[
    'Patterns like <b>ReAct</b> interleave thinking and acting; <b>memory</b> lets an agent carry state across steps; <b>planning</b> breaks big goals into sub-tasks; and open standards like the <b>Model Context Protocol</b> give agents a common way to plug into tools and data. Several agents can even collaborate, each with a role.',
    'This is where the road has led \u2014 from rules we wrote by hand, to models that learned, to systems that now pursue goals with growing autonomy. It also raises the stakes on alignment and oversight, because a system that <i>acts</i> can cause effects a system that only talks cannot. The story isn\u2019t finished; you\u2019re reading it in real time.'],
   keyTerms:['AI Agent','Agentic AI','Tool Use','ReAct','Planning','Memory','Model Context Protocol','Multi-Agent System','Autonomous Agent'],
-  milestones:[['2023','Tool-using agents & ReAct'],['2024','Agent frameworks mature'],['2025','Model Context Protocol standardises tools']] },
+  milestones:[['2023','Tool-using agents & ReAct'],['2024','Agent frameworks mature'],['2024','Model Context Protocol standardises tools']] },
 ];
+
+/* Further Reading — landmark primary sources, verified titles/years */
+const READING = {
+ origins:[
+   {a:'A. M. Turing', t:'Computing Machinery and Intelligence', y:'1950 \u00b7 Mind', u:'https://doi.org/10.1093/mind/LIX.236.433'},
+   {a:'McCarthy, Minsky, Rochester & Shannon', t:'A Proposal for the Dartmouth Summer Research Project on AI', y:'1955', u:'https://doi.org/10.1609/aimag.v27i4.1904'},
+   {a:'J. Searle', t:'Minds, Brains, and Programs (the Chinese Room)', y:'1980', u:'https://doi.org/10.1017/S0140525X00005756'} ],
+ ml:[
+   {a:'C. Cortes & V. Vapnik', t:'Support-Vector Networks', y:'1995 \u00b7 Machine Learning', u:'https://doi.org/10.1007/BF00994018'},
+   {a:'L. Breiman', t:'Random Forests', y:'2001 \u00b7 Machine Learning', u:'https://doi.org/10.1023/A:1010933404324'},
+   {a:'P. Domingos', t:'A Few Useful Things to Know About Machine Learning', y:'2012 \u00b7 CACM', u:'https://doi.org/10.1145/2347736.2347755'} ],
+ dl:[
+   {a:'Krizhevsky, Sutskever & Hinton', t:'ImageNet Classification with Deep CNNs (AlexNet)', y:'2012 \u00b7 NeurIPS', u:'https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks'},
+   {a:'LeCun, Bengio & Hinton', t:'Deep Learning', y:'2015 \u00b7 Nature', u:'https://doi.org/10.1038/nature14539'},
+   {a:'He, Zhang, Ren & Sun', t:'Deep Residual Learning for Image Recognition (ResNet)', y:'2015', u:'https://arxiv.org/abs/1512.03385'} ],
+ lang:[
+   {a:'Mikolov et al.', t:'Efficient Estimation of Word Representations (word2vec)', y:'2013', u:'https://arxiv.org/abs/1301.3781'},
+   {a:'Sutskever, Vinyals & Le', t:'Sequence to Sequence Learning with Neural Networks', y:'2014 \u00b7 NeurIPS', u:'https://arxiv.org/abs/1409.3215'},
+   {a:'Bahdanau, Cho & Bengio', t:'Neural Machine Translation by Jointly Learning to Align and Translate', y:'2015 \u00b7 ICLR', u:'https://arxiv.org/abs/1409.0473'} ],
+ transformer:[
+   {a:'Vaswani et al.', t:'Attention Is All You Need', y:'2017 \u00b7 NeurIPS', u:'https://arxiv.org/abs/1706.03762'},
+   {a:'Devlin et al.', t:'BERT: Pre-training of Deep Bidirectional Transformers', y:'2019 \u00b7 NAACL', u:'https://arxiv.org/abs/1810.04805'} ],
+ llm:[
+   {a:'Brown et al.', t:'Language Models are Few-Shot Learners (GPT-3)', y:'2020 \u00b7 NeurIPS', u:'https://arxiv.org/abs/2005.14165'},
+   {a:'Kaplan et al.', t:'Scaling Laws for Neural Language Models', y:'2020', u:'https://arxiv.org/abs/2001.08361'},
+   {a:'Wei et al.', t:'Emergent Abilities of Large Language Models', y:'2022 \u00b7 TMLR', u:'https://arxiv.org/abs/2206.07682'},
+   {a:'Ouyang et al.', t:'Training LMs to Follow Instructions with Human Feedback (InstructGPT)', y:'2022 \u00b7 NeurIPS', u:'https://arxiv.org/abs/2203.02155'} ],
+ gen:[
+   {a:'Goodfellow et al.', t:'Generative Adversarial Nets', y:'2014 \u00b7 NeurIPS', u:'https://arxiv.org/abs/1406.2661'},
+   {a:'Ho, Jain & Abbeel', t:'Denoising Diffusion Probabilistic Models', y:'2020 \u00b7 NeurIPS', u:'https://arxiv.org/abs/2006.11239'},
+   {a:'Rombach et al.', t:'High-Resolution Image Synthesis with Latent Diffusion (Stable Diffusion)', y:'2022 \u00b7 CVPR', u:'https://arxiv.org/abs/2112.10752'},
+   {a:'Radford et al.', t:'Learning Transferable Visual Models from NL Supervision (CLIP)', y:'2021', u:'https://arxiv.org/abs/2103.00020'} ],
+ rag:[
+   {a:'Lewis et al.', t:'Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks', y:'2020 \u00b7 NeurIPS', u:'https://arxiv.org/abs/2005.11401'},
+   {a:'Karpukhin et al.', t:'Dense Passage Retrieval for Open-Domain QA', y:'2020 \u00b7 EMNLP', u:'https://arxiv.org/abs/2004.04906'} ],
+ agents:[
+   {a:'Wei et al.', t:'Chain-of-Thought Prompting Elicits Reasoning in LLMs', y:'2022 \u00b7 NeurIPS', u:'https://arxiv.org/abs/2201.11903'},
+   {a:'Yao et al.', t:'ReAct: Synergizing Reasoning and Acting in Language Models', y:'2023 \u00b7 ICLR', u:'https://arxiv.org/abs/2210.03629'},
+   {a:'Schick et al.', t:'Toolformer: LMs Can Teach Themselves to Use Tools', y:'2023 \u00b7 NeurIPS', u:'https://arxiv.org/abs/2302.04761'},
+   {a:'Anthropic', t:'Introducing the Model Context Protocol', y:'2024', u:'https://www.anthropic.com/news/model-context-protocol'} ],
+};
 
 /* ---- Journey rail ---- */
 function buildJourney(){
@@ -1210,6 +1251,8 @@ function showChapter(i){
     <div class="keyterms"></div>
     <div class="ch-section-lbl">Milestones</div>
     <div class="milestones"></div>
+    <div class="ch-section-lbl reading-lbl">Further reading</div>
+    <div class="reading"></div>
     <div class="chapnav"></div>`;
   host.appendChild(c);
 
@@ -1225,6 +1268,10 @@ function showChapter(i){
   const ms=c.querySelector('.milestones');
   ch.milestones.forEach(([yr,ev])=>{ const d=document.createElement('div'); d.className='ms';
     d.innerHTML=`<span class="yr">${yr}</span><span class="ev">${ev}</span>`; ms.appendChild(d); });
+
+  const rd=c.querySelector('.reading');
+  (READING[ch.poster]||[]).forEach(r=>{ const d=document.createElement('div'); d.className='rd';
+    d.innerHTML=`<a class="rd-t" href="${r.u}" target="_blank" rel="noopener noreferrer">${r.t} <span class="rd-ext">\u2197</span></a><div class="rd-m">${r.a} \u00b7 ${r.y}</div>`; rd.appendChild(d); });
 
   const nav=c.querySelector('.chapnav');
   const prev=CHAPTERS[i-1], next=CHAPTERS[i+1];
@@ -1279,7 +1326,17 @@ document.body.appendChild(backPill);
 (function(){ const s=document.createElement('style'); s.textContent=
   '.back-pill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(22px);z-index:120;opacity:0;pointer-events:none;transition:.22s;background:var(--ink);color:var(--paper);border:none;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 26px rgba(0,0,0,.28);cursor:pointer;display:flex;align-items:center;gap:8px}'+
   '.back-pill.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}'+
-  '.back-pill:active{filter:brightness(1.12)}';
+  '.back-pill:active{filter:brightness(1.12)}'+
+  '.reading{display:flex;flex-direction:column;gap:0}'+
+  '.reading-lbl{margin-top:22px}'+
+  '.rd{padding:11px 0;border-top:1px dashed var(--line)}'+
+  '.rd:first-child{border-top:none}'+
+  'a.rd-t{display:inline-block;font-size:14.5px;color:var(--ink);line-height:1.45;font-weight:500;text-decoration:none;border-bottom:1px solid transparent;transition:.14s}'+
+  'a.rd-t:hover{color:var(--indigo);border-bottom-color:var(--indigo)}'+
+  '.rd-ext{color:var(--faint);font-size:12px}'+
+  'a.rd-t:hover .rd-ext{color:var(--indigo)}'+
+  '.rd-m{font-size:12.5px;color:var(--muted);margin-top:3px;font-family:ui-monospace,Menlo,monospace}'+
+  '@media print{.p-chap a{color:#1a1a3a;text-decoration:underline}}';
   document.head.appendChild(s); })();
 function showBackPill(on){ backPill.classList.toggle('show',on); }
 function returnToBook(){
@@ -1313,6 +1370,7 @@ function buildPrint(mode){ // 'full' = book + glossary, 'lex' = glossary only
     h+=ch.paras.map(p=>`<p>${p.replace(/<[^>]+>/g,'')}</p>`).join('');
     h+=`<div class="kt-line"><b>Key terms:</b> ${ch.keyTerms.join(' \u00b7 ')}</div>`;
     h+=`<div class="kt-line"><b>Milestones:</b> ${ch.milestones.map(m=>m[0]+' '+m[1]).join('  \u00b7  ')}</div>`;
+    h+=`<div class="kt-line"><b>Further reading:</b> ${(READING[ch.poster]||[]).map(r=>`<a href="${r.u}">${r.a}, \u201c${r.t}\u201d, ${r.y}</a>`).join('; ')}</div>`;
     d.innerHTML=h; root.appendChild(d);
   });
 
