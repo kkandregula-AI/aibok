@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#151625" />
-<meta name="description" content="KOŚA — an offline lexicon of artificial intelligence. Every core AI term, defined." />
-<title>KOŚA — The AI Lexicon</title>
+<meta name="description" content="Compendium — an interactive, offline book of knowledge on artificial intelligence, from origins to agentic AI, with a 273-term lexicon." />
+<title>Compendium — The AI Book of Knowledge</title>
 <link rel="apple-touch-icon" id="appleIcon" />
 <style>
 :root{
@@ -59,8 +59,9 @@ body{
   font-family:ui-serif,Georgia,serif;font-size:26px;font-weight:600;
   margin-bottom:12px;letter-spacing:-1px;
 }
-.title{font-size:40px;font-weight:600;letter-spacing:.14em;line-height:1;}
+.title{font-size:33px;font-weight:600;letter-spacing:.09em;line-height:1.05;}
 .title .sanskrit{color:var(--gold)}
+@media(max-width:400px){.title{font-size:27px;letter-spacing:.06em}}
 .sub{color:var(--muted);font-size:14px;margin-top:10px;letter-spacing:.02em}
 .sub .em{color:var(--ink);font-style:italic;font-family:ui-serif,Georgia,serif}
 .count-line{font-size:12px;color:var(--faint);margin-top:6px;letter-spacing:.08em;text-transform:uppercase}
@@ -337,8 +338,8 @@ body{
       <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle light or dark theme">◐</button>
       <button class="icon-btn" id="setBtn" title="Settings" aria-label="Open settings">⚙</button>
     </div>
-    <div class="crest serif">क</div>
-    <h1 class="title serif">KO<span class="sanskrit">Ś</span>A</h1>
+    <div class="crest serif">C</div>
+    <h1 class="title serif"><span class="sanskrit">C</span>ompendium</h1>
     <p class="sub">The AI Book of Knowledge — <span class="em">from origins to agentic AI, fully offline</span></p>
     <p class="count-line" id="countLine">loading…</p>
   </header>
@@ -377,14 +378,14 @@ body{
 
   <footer class="foot">
     <p class="sig">Designed &amp; Architected by <b>Krishnamurthy Kandregula</b> · Made by Claude</p>
-    <p>KOŚA runs entirely on your device. Definitions are offline; AI deep-dives use your own Anthropic key.</p>
+    <p>Compendium runs entirely on your device. Definitions are offline; AI deep-dives use your own Anthropic key.</p>
   </footer>
 </div>
 
 <div class="overlay" id="overlay">
   <div class="sheet" role="dialog" aria-modal="true" aria-label="Settings">
     <h2>Settings</h2>
-    <p class="desc">KOŚA works fully offline. To unlock AI "deep-dive" explanations on any term, add your own Anthropic API key (BYOK). Your key is stored only on this device.</p>
+    <p class="desc">Compendium works fully offline. To unlock AI "deep-dive" explanations on any term, add your own Anthropic API key (BYOK). Your key is stored only on this device.</p>
     <label class="field-lbl" for="keyInput">Anthropic API Key</label>
     <input id="keyInput" type="password" placeholder="sk-ant-…" autocomplete="off" />
     <label class="field-lbl" for="modelSel">Model</label>
@@ -401,7 +402,7 @@ body{
 <div id="printRoot" aria-hidden="true"></div>
 
 <script>
-// ============================ KOŚA DATA ============================
+// ============================ COMPENDIUM DATA ============================
 // Category registry: key -> {label, color}
 const CATS = {
   found:   {label:"Foundations",        color:"#6366F1"},
@@ -996,7 +997,7 @@ function makeIcon(size){
   x.fillStyle="#B07D2B";
   x.font=`600 ${size*0.6}px ui-serif, Georgia, serif`;
   x.textAlign="center"; x.textBaseline="middle";
-  x.fillText("क", size/2, size*0.56);
+  x.fillText("C", size/2, size*0.54);
   x.strokeStyle="#B07D2B"; x.lineWidth=Math.max(2,size*0.03);
   x.beginPath(); x.arc(size/2,size/2,size*0.42,0,Math.PI*2); x.stroke();
   return c.toDataURL("image/png");
@@ -1005,8 +1006,8 @@ try{
   const icon192=makeIcon(192), icon512=makeIcon(512);
   $("#appleIcon").setAttribute("href", icon192);
   const manifest={
-    name:"KOŚA — The AI Lexicon", short_name:"KOŚA",
-    description:"An offline lexicon of artificial intelligence.",
+    name:"Compendium — The AI Book of Knowledge", short_name:"Compendium",
+    description:"An interactive, offline book of knowledge on artificial intelligence.",
     start_url:"./", display:"standalone",
     background_color:"#151625", theme_color:"#151625",
     icons:[
@@ -1020,29 +1021,13 @@ try{
   document.head.appendChild(link);
 }catch(e){ /* icon/manifest optional */ }
 
-// Offline service worker (cache-first). All content is inline, so the app also
-// works offline once loaded even where blob-SW registration is unavailable.
+// Offline after first load: register a real companion service worker (sw.js) that
+// caches the app shell. Requires deploying sw.js alongside this file (same folder).
+// Opened directly via file:// there is no SW, but the app still works — all content is inline.
 if("serviceWorker" in navigator){
-  const swCode=`
-    const CACHE="kosa-v1";
-    self.addEventListener("install",e=>{self.skipWaiting();
-      e.waitUntil(caches.open(CACHE).then(c=>c.addAll(["./","./index.html"]).catch(()=>{})));});
-    self.addEventListener("activate",e=>{e.waitUntil(self.clients.claim());});
-    self.addEventListener("fetch",e=>{
-      const u=new URL(e.request.url);
-      if(u.origin!==location.origin || u.hostname.includes("api.anthropic.com")) return;
-      e.respondWith(
-        caches.match(e.request).then(r=> r || fetch(e.request).then(resp=>{
-          const copy=resp.clone();
-          caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{});
-          return resp;
-        }).catch(()=> caches.match("./index.html")))
-      );
-    });`;
-  try{
-    const swUrl=URL.createObjectURL(new Blob([swCode],{type:"text/javascript"}));
-    navigator.serviceWorker.register(swUrl).catch(()=>{});
-  }catch(e){ /* offline still works: content is fully inline */ }
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("sw.js").catch(()=>{ /* offline still works: content is fully inline */ });
+  });
 }
 
 // ---- First render + counts ----
@@ -1354,7 +1339,7 @@ function buildPrint(mode){ // 'full' = book + glossary, 'lex' = glossary only
   const root=$("#printRoot"); root.innerHTML='';
   const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   root.appendChild(el('div','p-cover',
-    `<div class="crestP">\u0915</div><h1>KO\u015aA</h1>
+    `<div class="crestP">C</div><h1>Compendium</h1>
      <div class="csub">${mode==='full'?'The AI Book of Knowledge \u2014 from origins to agentic AI':'The AI Lexicon'}</div>
      <div class="cmeta">${mode==='full'?CHAPTERS.length+' chapters \u00b7 ':''}${TERMS.length} terms \u00b7 ${Object.keys(CATS).length} domains \u00b7 generated ${today}</div>
      <div class="csig">Designed &amp; Architected by Krishnamurthy Kandregula \u00b7 Made by Claude</div>`));
@@ -1383,7 +1368,7 @@ function buildPrint(mode){ // 'full' = book + glossary, 'lex' = glossary only
       `<div class="pt-h">${t.t}${t.ac?` (${t.ac})`:''}<span class="pt-id">${t.id}</span></div><div class="pt-d">${t.d}</div>`)));
     root.appendChild(cat); first=false;
   });
-  root.appendChild(el('div','p-foot','KO\u015aA \u00b7 Krishnamurthy Kandregula Innovation Lab \u00b7 made with Claude'));
+  root.appendChild(el('div','p-foot','Compendium \u00b7 Krishnamurthy Kandregula Innovation Lab \u00b7 made with Claude'));
 }
 $("#exportBook").onclick=()=>{ buildPrint('full'); setTimeout(()=>window.print(),150); };
 $("#exportLex").onclick=()=>{ buildPrint('lex'); setTimeout(()=>window.print(),150); };
@@ -1600,7 +1585,7 @@ POSTERS.gen=function(stage){
   const N=64, tgt=document.createElement('canvas'); tgt.width=tgt.height=N; const tx=tgt.getContext('2d');
   tx.fillStyle='#151625'; tx.fillRect(0,0,N,N);
   const g=tx.createRadialGradient(N/2,N/2,4,N/2,N/2,N/2); g.addColorStop(0,'#E3B95F'); g.addColorStop(1,'#B07D2B');
-  tx.fillStyle=g; tx.font='700 '+(N*0.7)+'px Georgia,serif'; tx.textAlign='center'; tx.textBaseline='middle'; tx.fillText('\u0915',N/2,N*0.57);
+  tx.fillStyle=g; tx.font='700 '+(N*0.72)+'px Georgia,serif'; tx.textAlign='center'; tx.textBaseline='middle'; tx.fillText('C',N/2,N*0.55);
   const tdata=tx.getImageData(0,0,N,N).data;
   const step=ctrl.querySelector('#dstep');
   const tmpc=document.createElement('canvas'); tmpc.width=tmpc.height=N; const tcx=tmpc.getContext('2d');
@@ -1621,13 +1606,13 @@ POSTERS.gen=function(stage){
 /* 8 · RAG — retrieve then ground */
 POSTERS.rag=function(stage){
   let dead=false; onCleanup(()=>dead=true);
-  const corpus=[['D1','KO\u015aA runs fully offline; every definition is stored on your device.'],
+  const corpus=[['D1','Compendium runs fully offline; every definition is stored on your device.'],
     ['D2','Deep-dive explanations use your own Anthropic API key (BYOK).'],
     ['D3','The lexicon covers 273 AI terms across 16 domains.'],
     ['D4','Vector databases store embeddings so search works by meaning.']];
   const wrap=document.createElement('div'); wrap.style.padding='14px 16px 6px';
   wrap.innerHTML=`<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Ask a question. RAG retrieves the matching chunks, then grounds the answer in them.</div>
-   <div style="display:flex;gap:8px"><input id="rq" value="Is KO\u015aA offline, and how many terms?" style="flex:1;font-size:14px;padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)"><button class="pbtn" id="rgo">Run \u25b8</button></div>
+   <div style="display:flex;gap:8px"><input id="rq" value="Is Compendium offline, and how many terms?" style="flex:1;font-size:14px;padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)"><button class="pbtn" id="rgo">Run \u25b8</button></div>
    <div id="rstages" style="display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 12px"></div>
    <div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px">Knowledge base</div>
    <div id="rdocs" style="display:flex;flex-direction:column;gap:6px"></div><div id="rans"></div>`;
